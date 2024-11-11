@@ -1692,3 +1692,25 @@ Traceback (most recent call last):
 ImportError: cannot import name 'BaseText' from 'docling_core.types' (/home/airflow/.local/lib/python3.12/site-packages/docling_core/types/__init__.py)
 [2024-11-11T09:37:08.529+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/docling_parser.py
 [2024-11-11T09:37:08.548+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/docling_parser.py took 0.957 seconds
+[2024-11-11T09:37:38.897+0000] {processor.py:186} INFO - Started process (PID=633) to work on /opt/airflow/dags/docling_parser.py
+[2024-11-11T09:37:38.902+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/docling_parser.py for tasks to queue
+[2024-11-11T09:37:38.907+0000] {logging_mixin.py:190} INFO - [2024-11-11T09:37:38.906+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/docling_parser.py
+[2024-11-11T09:37:39.986+0000] {logging_mixin.py:190} INFO - [2024-11-11T09:37:39.983+0000] {dagbag.py:387} ERROR - Failed to import: /opt/airflow/dags/docling_parser.py
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.12/site-packages/airflow/models/dagbag.py", line 383, in parse
+    loader.exec_module(new_module)
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/opt/airflow/dags/docling_parser.py", line 15, in <module>
+    from docling.document_converter import DocumentConverter, PdfFormatOption
+  File "/home/airflow/.local/lib/python3.12/site-packages/docling/document_converter.py", line 11, in <module>
+    from docling.backend.docling_parse_backend import DoclingParseDocumentBackend
+  File "/home/airflow/.local/lib/python3.12/site-packages/docling/backend/docling_parse_backend.py", line 13, in <module>
+    from docling.backend.pdf_backend import PdfDocumentBackend, PdfPageBackend
+  File "/home/airflow/.local/lib/python3.12/site-packages/docling/backend/pdf_backend.py", line 11, in <module>
+    from docling.datamodel.document import InputDocument
+  File "/home/airflow/.local/lib/python3.12/site-packages/docling/datamodel/document.py", line 9, in <module>
+    from docling_core.types import BaseText
+ImportError: cannot import name 'BaseText' from 'docling_core.types' (/home/airflow/.local/lib/python3.12/site-packages/docling_core/types/__init__.py)
+[2024-11-11T09:37:39.986+0000] {processor.py:927} WARNING - No viable dags retrieved from /opt/airflow/dags/docling_parser.py
+[2024-11-11T09:37:40.012+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/docling_parser.py took 1.130 seconds
