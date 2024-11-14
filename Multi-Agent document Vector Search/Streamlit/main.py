@@ -89,7 +89,7 @@ def main_app():
     # Logout button on the upper-left corner
     st.sidebar.button("Logout", on_click=logout, help="Logout", key="logout_button")
 
-    st.markdown("<h1 class='centered-title'>PDF Text Extraction Application</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='centered-title'>Multi-Agent Document Vector Search Application</h1>", unsafe_allow_html=True)
 
     # View mode selector
     view_mode = st.radio("Select view mode", ["List View", "Grid View"], index=0 if st.session_state['view_mode'] == 'list' else 1)
