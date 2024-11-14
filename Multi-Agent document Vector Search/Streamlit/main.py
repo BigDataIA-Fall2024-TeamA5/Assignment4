@@ -7,6 +7,8 @@ from PIL import Image
 import io
 import base64
 
+from research_graph import run_research_graph
+
 # Load environment variables
 load_dotenv()
 
@@ -240,6 +242,45 @@ def display_pdfs_grid_view():
                 st.rerun()
             st.markdown("</div>", unsafe_allow_html=True)
 
+
+def research_interface():
+    st.title("Multi-Agent Research Interface")
+
+    # Document selection
+    selected_document = st.selectbox("Select a document", [pdf[0] for pdf in st.session_state['pdf_data']])
+
+    # Chatbox for questions
+    st.subheader("Ask your research questions")
+    user_question = st.text_input("Enter your question:")
+
+    if st.button("Conduct Research"):
+        # Run the research graph
+        results = run_research_graph(selected_document, user_question)
+
+        # Display results
+        st.subheader("Research Results")
+        st.write(f"Document: {selected_document}")
+        st.write(f"Arxiv results: {results.get('arxiv_results', 'No results')}")
+        st.write(f"Web search results: {results.get('web_search_results', 'No results')}")
+        st.write(f"Document-based answer: {results.get('rag_answer', 'No answer generated')}")
+
+        # Update chat history
+        if 'chat_history' not in st.session_state:
+            st.session_state.chat_history = []
+        st.session_state.chat_history.append((user_question, results.get('rag_answer', 'No answer generated')))
+
+    # Display chat history
+    st.subheader("Chat History")
+    for i, (question, answer) in enumerate(st.session_state.chat_history):
+        st.text(f"Q{i+1}: {question}")
+        st.text(f"A: {answer}")
+
+    # Option to clear chat history
+    if st.button("Clear Chat History"):
+        st.session_state.chat_history = []
+        st.rerun()
+
+
 # Logout function
 def logout():
     st.session_state['logged_in'] = False
@@ -306,10 +347,17 @@ def login(username, password):
        st.error("Invalid username or password. Please try again.")
 
 # Main Interface depending on login state 
+# Main Interface depending on login state
 if st.session_state['logged_in']:
-   if st.session_state['page'] == 'details':
-       show_pdf_details()
-   else:
-       main_app()
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio("Go to", ["Home", "Research"])
+
+    if page == "Home":
+        if st.session_state['page'] == 'details':
+            show_pdf_details()
+        else:
+            main_app()
+    elif page == "Research":
+        research_interface()
 else:
-   login_page()
+    login_page()
