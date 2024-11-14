@@ -3,6 +3,9 @@ import requests
 import snowflake.connector
 from dotenv import load_dotenv
 import os
+from PIL import Image
+import io
+import base64
 
 # Load environment variables
 load_dotenv()
@@ -26,6 +29,8 @@ if 'selected_pdf' not in st.session_state:
     st.session_state['selected_pdf'] = None
 if 'view_mode' not in st.session_state:
     st.session_state['view_mode'] = 'list'  # default view is list
+if 'page' not in st.session_state:
+    st.session_state['page'] = 'main'
 
 # Snowflake connection setup
 def create_snowflake_connection():
@@ -61,9 +66,54 @@ def fetch_pdf_data_from_snowflake():
 
     return result  # Returns a list of tuples (title, brief_summary, image_link, pdf_link)
 
+# Function to resize and get image as base64
+def get_resized_image_base64(image_url, width=300):
+    try:
+        response = requests.get(image_url)
+        img = Image.open(io.BytesIO(response.content))
+        new_height = int(width * img.height / img.width)
+        resized_img = img.resize((width, new_height))
+        buffered = io.BytesIO()
+        resized_img.save(buffered, format="PNG")
+        return base64.b64encode(buffered.getvalue()).decode()
+    except Exception as e:
+        st.error(f"Error loading image: {e}")
+        return None
+
+# Function to display PDF details on a new page
+def show_pdf_details():
+    pdf_data = st.session_state['selected_pdf']
+    if pdf_data:
+        pdf_name, brief_summary, image_link, pdf_link = pdf_data
+
+        # Display the PDF title
+        st.header(f"Details for {pdf_name}")
+
+        # Display the resized image
+        if image_link:
+            img_base64 = get_resized_image_base64(image_link)
+            if img_base64:
+                st.image(f"data:image/png;base64,{img_base64}", caption=pdf_name, use_container_width=False)
+
+        # Display the summary
+        st.subheader("Extracted Summary")
+        st.write(brief_summary)
+
+        # Provide a link to open the PDF
+        st.markdown(f"[Open PDF File]({pdf_link})", unsafe_allow_html=True)
+
+        if st.button("Back to Main Page"):
+            st.session_state['page'] = 'main'
+            st.rerun()
+    else:
+        st.error("No PDF selected. Please go back and select a PDF.")
+        if st.button("Back to Main Page"):
+            st.session_state['page'] = 'main'
+            st.rerun()
+
 # Main Application
 def main_app():
-    # Custom CSS for orange buttons
+    # Custom CSS for orange buttons and hover effect
     st.markdown("""
         <style>
         .stButton button {
@@ -83,11 +133,39 @@ def main_app():
             padding-bottom: 10px;
             margin-bottom: 30px;
         }
+        .pdf-container {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+        }
+        .pdf-container img {
+            transition: transform 0.3s ease-in-out;
+        }
+        .pdf-container:hover img {
+            transform: scale(1.1);
+        }
+        .pdf-container .hover-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            overflow: auto;
+        }
+        .pdf-container:hover .hover-text {
+            opacity: 1;
+        }
         </style>
     """, unsafe_allow_html=True)
 
     # Logout button on the upper-left corner
-    st.sidebar.button("Logout", on_click=logout, help="Logout", key="logout_button")
+    if st.sidebar.button("Logout", help="Logout"):
+        logout()
 
     st.markdown("<h1 class='centered-title'>Multi-Agent Document Vector Search Application</h1>", unsafe_allow_html=True)
 
@@ -95,10 +173,7 @@ def main_app():
     view_mode = st.radio("Select view mode", ["List View", "Grid View"], index=0 if st.session_state['view_mode'] == 'list' else 1)
 
     # Update session state based on view mode
-    if view_mode == "List View":
-        st.session_state['view_mode'] = 'list'
-    else:
-        st.session_state['view_mode'] = 'grid'
+    st.session_state['view_mode'] = 'list' if view_mode == "List View" else 'grid'
 
     # Fetch PDF data from Snowflake if not already fetched
     if not st.session_state['pdf_data']:
@@ -115,107 +190,89 @@ def display_pdfs_list_view():
     st.subheader("PDF Files (List View)")
     for i, pdf_data in enumerate(st.session_state['pdf_data']):
         pdf_name, brief_summary, image_link, pdf_link = pdf_data
-        if st.button(f"{pdf_name}", key=f"list_{i}"):
-            st.session_state['selected_pdf'] = pdf_data
-            show_pdf_details(pdf_name, pdf_link, image_link, brief_summary)
+        
+        # Create columns for image and title
+        col1, col2 = st.columns([1, 3])
+        
+        with col1:
+            img_base64 = get_resized_image_base64(image_link, width=150)
+            if img_base64:
+                st.markdown(f"""
+                    <div class="pdf-container">
+                        <img src="data:image/png;base64,{img_base64}" width="150">
+                        <div class="hover-text">{brief_summary}</div>
+                    </div>
+                """, unsafe_allow_html=True)
+        
+        with col2:
+            # Align the button vertically with the image
+            st.markdown("<div style='display:flex;align-items:center;height:100%;'>", unsafe_allow_html=True)
+            if st.button(f"{pdf_name}", key=f"list_{i}"):
+                st.session_state['selected_pdf'] = pdf_data
+                st.session_state['page'] = 'details'
+                st.rerun()
+            st.markdown("</div>", unsafe_allow_html=True)
 
-# Function to display PDFs in grid view with hover effect and larger images
+# Function to display PDFs in grid view
 def display_pdfs_grid_view():
     st.subheader("PDF Files (Grid View)")
-
-    # Custom CSS for hover effect and padding between columns
-    st.markdown("""
-        <style>
-        .pdf-container {
-            position: relative;
-            width: 300px;
-            height: 400px;
-            margin: 20px;
-        }
-        .pdf-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-        }
-        .pdf-container:hover .pdf-image {
-            transform: scale(1.05);
-        }
-        .pdf-details {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-            display: none;
-        }
-        .pdf-container:hover .pdf-details {
-            display: block;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
-    # Adjusted columns to fit well with spacing
-    cols = st.columns([1, 1, 1], gap="large")  # Adjusted column width and gap between columns
+    cols = st.columns(3)
+    
     for i, pdf_data in enumerate(st.session_state['pdf_data']):
         pdf_name, brief_summary, image_link, pdf_link = pdf_data
+        
         with cols[i % 3]:
-            # Display the PDF image with hover effect
-            st.markdown(f"""
-                <div class="pdf-container">
-                    <img class="pdf-image" src="{image_link}" alt="{pdf_name}">
-                    <div class="pdf-details">
-                        <h4>{pdf_name}</h4>
-                        <p>{brief_summary}</p>
+            img_base64 = get_resized_image_base64(image_link, width=250)
+            
+            if img_base64:
+                st.markdown(f"""
+                    <div class="pdf-container">
+                        <img src="data:image/png;base64,{img_base64}" width="250">
+                        <div class="hover-text">{brief_summary}</div>
                     </div>
-                </div>
-            """, unsafe_allow_html=True)
-
+                """, unsafe_allow_html=True)
+            
+            # Center the button below the image
+            st.markdown("<div style='text-align:center;'>", unsafe_allow_html=True)
             if st.button(f"{pdf_name}", key=f"grid_{i}"):
                 st.session_state['selected_pdf'] = pdf_data
-                show_pdf_details(pdf_name, pdf_link, image_link, brief_summary)
-
-# Function to display PDF details
-def show_pdf_details(pdf_name, pdf_link, image_link, brief_summary):
-    st.write(f"### Details of {pdf_name}")
-    
-    # Display the PDF details
-    if image_link:
-        st.image(image_link, width=350)  # Display the image in a larger size
-
-    # Display brief summary
-    st.write(f"**Summary**: {brief_summary}")
-
-    # Link to the PDF file for viewing or downloading
-    st.markdown(f"[Open PDF]({pdf_link})", unsafe_allow_html=True)
+                st.session_state['page'] = 'details'
+                st.rerun()
+            st.markdown("</div>", unsafe_allow_html=True)
 
 # Logout function
 def logout():
     st.session_state['logged_in'] = False
     st.session_state['access_token'] = None
+    st.session_state['page'] = 'main'
+    st.rerun()
 
 # Login Page
 def login_page():
-    st.header("Login / Signup")  # Add a header for login/signup
+    st.header("Login / Signup")
+    
     option = st.selectbox("Select Login or Signup", ("Login", "Signup"))
-
+    
     if option == "Login":
         st.subheader("Login")
+        
         username = st.text_input("Username")
+        
         password = st.text_input("Password", type="password")
+        
         if st.button("Login"):
             login(username, password)
 
     elif option == "Signup":
+        
         st.subheader("Signup")
+        
         username = st.text_input("Username")
+        
         email = st.text_input("Email")
+        
         password = st.text_input("Password", type="password")
+        
         if st.button("Signup"):
             signup(username, email, password)
 
@@ -231,22 +288,28 @@ def signup(username, email, password):
     else:
         st.error(f"Signup failed: {response.json().get('detail', 'Unknown error occurred')}")
 
-# Login function
+# Login function 
 def login(username, password):
-    response = requests.post(LOGIN_URL, json={
-        "username": username,
-        "password": password
-    })
-    if response.status_code == 200:
-        token_data = response.json()
-        st.session_state['access_token'] = token_data['access_token']
-        st.session_state['logged_in'] = True
-        st.success("Logged in successfully!")
-    else:
-        st.error("Invalid username or password. Please try again.")
+    
+   response = requests.post(LOGIN_URL, json={
+      "username": username,
+      "password": password 
+   })
+   
+   if response.status_code == 200:
+       token_data = response.json()
+       st.session_state['access_token'] = token_data['access_token']
+       st.session_state['logged_in'] = True 
+       st.success("Logged in successfully!")
+       st.rerun()
+   else:
+       st.error("Invalid username or password. Please try again.")
 
-# Main Interface depending on login state
+# Main Interface depending on login state 
 if st.session_state['logged_in']:
-    main_app()
+   if st.session_state['page'] == 'details':
+       show_pdf_details()
+   else:
+       main_app()
 else:
-    login_page()
+   login_page()
