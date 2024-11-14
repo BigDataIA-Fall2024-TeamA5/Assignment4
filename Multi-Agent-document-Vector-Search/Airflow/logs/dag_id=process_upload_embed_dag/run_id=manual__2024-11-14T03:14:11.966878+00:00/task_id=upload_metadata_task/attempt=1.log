@@ -1,0 +1,420 @@
+[2024-11-13T22:25:54.895-0500] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2024-11-13T22:25:54.902-0500] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: process_upload_embed_dag.upload_metadata_task manual__2024-11-14T03:14:11.966878+00:00 [queued]>
+[2024-11-13T22:25:54.907-0500] {taskinstance.py:2613} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: process_upload_embed_dag.upload_metadata_task manual__2024-11-14T03:14:11.966878+00:00 [queued]>
+[2024-11-13T22:25:54.907-0500] {taskinstance.py:2866} INFO - Starting attempt 1 of 2
+[2024-11-13T22:25:54.916-0500] {taskinstance.py:2889} INFO - Executing <Task(PythonOperator): upload_metadata_task> on 2024-11-14 03:14:11.966878+00:00
+[2024-11-13T22:25:54.923-0500] {logging_mixin.py:190} WARNING - /Users/aniketpatole/anaconda3/envs/doc_env/lib/python3.12/site-packages/airflow/task/task_runner/standard_task_runner.py:70 DeprecationWarning: This process (pid=33287) is multi-threaded, use of fork() may lead to deadlocks in the child.
+[2024-11-13T22:25:54.923-0500] {standard_task_runner.py:72} INFO - Started process 33301 to run task
+[2024-11-13T22:25:54.927-0500] {standard_task_runner.py:104} INFO - Running: ['airflow', 'tasks', 'run', 'process_upload_embed_dag', 'upload_metadata_task', 'manual__2024-11-14T03:14:11.966878+00:00', '--job-id', '13', '--raw', '--subdir', 'DAGS_FOLDER/uploadEmbeding.py', '--cfg-path', '/var/folders/hv/5k7fzn6n35x53nwy53y7ydrm0000gn/T/tmpw_762o6v']
+[2024-11-13T22:25:54.929-0500] {standard_task_runner.py:105} INFO - Job 13: Subtask upload_metadata_task
+[2024-11-13T22:25:54.959-0500] {task_command.py:467} INFO - Running <TaskInstance: process_upload_embed_dag.upload_metadata_task manual__2024-11-14T03:14:11.966878+00:00 [running]> on host anikets-macbook-air.local
+[2024-11-13T22:25:54.994-0500] {taskinstance.py:3132} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='airflow' AIRFLOW_CTX_DAG_ID='process_upload_embed_dag' AIRFLOW_CTX_TASK_ID='upload_metadata_task' AIRFLOW_CTX_EXECUTION_DATE='2024-11-14T03:14:11.966878+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-11-14T03:14:11.966878+00:00'
+[2024-11-13T22:25:54.996-0500] {taskinstance.py:731} INFO - ::endgroup::
+[2024-11-13T22:25:55.009-0500] {uploadEmbeding.py:56} INFO - Starting metadata upload...
+[2024-11-13T22:25:55.010-0500] {docling_parser.py:77} INFO - Listing PDFs in S3 folder: pdfs/
+[2024-11-13T22:25:55.648-0500] {uploadEmbeding.py:59} INFO - Uploading metadata for PDF: pdfs/Horan ESG_RF_Brief_2022_Online.pdf
+[2024-11-13T22:25:55.649-0500] {docling_parser.py:87} INFO - Processing PDF: pdfs/Horan ESG_RF_Brief_2022_Online.pdf
+[2024-11-13T22:25:58.173-0500] {document_converter.py:202} INFO - Going to convert document batch...
+[2024-11-13T22:25:58.370-0500] {logging_mixin.py:190} WARNING - Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]
+[2024-11-13T22:25:58.371-0500] {logging_mixin.py:190} WARNING - Fetching 9 files: 100%|##########| 9/9 [00:00<00:00, 81884.46it/s]
+[2024-11-13T22:25:58.459-0500] {easyocr.py:71} WARNING - Using CPU. Note: This module is much faster with a GPU.
+[2024-11-13T22:26:03.965-0500] {base_pipeline.py:37} INFO - Processing document Horan ESG_RF_Brief_2022_Online.pdf
+[2024-11-13T22:27:39.876-0500] {document_converter.py:219} INFO - Finished converting document Horan ESG_RF_Brief_2022_Online.pdf in 102.31 sec.
+[2024-11-13T22:27:39.879-0500] {docling_parser.py:106} INFO - Saving images and markdown...
+[2024-11-13T22:27:42.011-0500] {uploadEmbeding.py:59} INFO - Uploading metadata for PDF: pdfs/ai-and-big-data-in-investments.pdf
+[2024-11-13T22:27:42.013-0500] {docling_parser.py:87} INFO - Processing PDF: pdfs/ai-and-big-data-in-investments.pdf
+[2024-11-13T22:27:54.814-0500] {document_converter.py:202} INFO - Going to convert document batch...
+[2024-11-13T22:27:54.880-0500] {logging_mixin.py:190} WARNING - Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]
+[2024-11-13T22:27:54.884-0500] {logging_mixin.py:190} WARNING - Fetching 9 files: 100%|##########| 9/9 [00:00<00:00, 5776.39it/s]
+[2024-11-13T22:27:54.888-0500] {easyocr.py:71} WARNING - Using CPU. Note: This module is much faster with a GPU.
+[2024-11-13T22:27:59.550-0500] {base_pipeline.py:37} INFO - Processing document ai-and-big-data-in-investments.pdf
+[2024-11-13T22:37:13.366-0500] {local_task_job_runner.py:133} CRITICAL - 
+******************************************* Received SIGSEGV *******************************************
+SIGSEGV (Segmentation Violation) signal indicates Segmentation Fault error which refers to
+an attempt by a program/library to write or read outside its allocated memory.
+
+In Python environment usually this signal refers to libraries which use low level C API.
+Make sure that you use right libraries/Docker Images
+for your architecture (Intel/ARM) and/or Operational System (Linux/macOS).
+
+Suggested way to debug
+======================
+  - Set environment variable 'PYTHONFAULTHANDLER' to 'true'.
+  - Start airflow services.
+  - Restart failed airflow task.
+  - Check 'scheduler' and 'worker' services logs for additional traceback
+    which might contain information about module/library where actual error happen.
+
+Known Issues
+============
+
+Note: Only Linux-based distros supported as "Production" execution environment for Airflow.
+
+macOS
+-----
+ 1. Due to limitations in Apple's libraries not every process might 'fork' safe.
+    One of the general error is unable to query the macOS system configuration for network proxies.
+    If your are not using a proxy you could disable it by set environment variable 'no_proxy' to '*'.
+    See: https://github.com/python/cpython/issues/58037 and https://bugs.python.org/issue30385#msg293958
+********************************************************************************************************
+[2024-11-13T22:37:20.348-0500] {logging_mixin.py:190} WARNING - --- Logging error ---
+[2024-11-13T22:37:22.157-0500] {local_task_job_runner.py:133} CRITICAL - 
+******************************************* Received SIGSEGV *******************************************
+SIGSEGV (Segmentation Violation) signal indicates Segmentation Fault error which refers to
+an attempt by a program/library to write or read outside its allocated memory.
+
+In Python environment usually this signal refers to libraries which use low level C API.
+Make sure that you use right libraries/Docker Images
+for your architecture (Intel/ARM) and/or Operational System (Linux/macOS).
+
+Suggested way to debug
+======================
+  - Set environment variable 'PYTHONFAULTHANDLER' to 'true'.
+  - Start airflow services.
+  - Restart failed airflow task.
+  - Check 'scheduler' and 'worker' services logs for additional traceback
+    which might contain information about module/library where actual error happen.
+
+Known Issues
+============
+
+Note: Only Linux-based distros supported as "Production" execution environment for Airflow.
+
+macOS
+-----
+ 1. Due to limitations in Apple's libraries not every process might 'fork' safe.
+    One of the general error is unable to query the macOS system configuration for network proxies.
+    If your are not using a proxy you could disable it by set environment variable 'no_proxy' to '*'.
+    See: https://github.com/python/cpython/issues/58037 and https://bugs.python.org/issue30385#msg293958
+********************************************************************************************************
+[2024-11-13T22:37:22.333-0500] {secrets_masker.py:282} WARNING - Unable to redact value of type 
+******************************************* Received SIGSEGV *******************************************
+SIGSEGV (Segmentation Violation) signal indicates Segmentation Fault error which refers to
+an attempt by a program/library to write or read outside its allocated memory.
+
+In Python environment usually this signal refers to libraries which use low level C API.
+Make sure that you use right libraries/Docker Images
+for your architecture (Intel/ARM) and/or Operational System (Linux/macOS).
+
+Suggested way to debug
+======================
+  - Set environment variable 'PYTHONFAULTHANDLER' to 'true'.
+  - Start airflow services.
+  - Restart failed airflow task.
+  - Check 'scheduler' and 'worker' services logs for additional traceback
+    which might contain information about module/library where actual error happen.
+
+Known Issues
+============
+
+Note: Only Linux-based distros supported as "Production" execution environment for Airflow.
+
+macOS
+-----
+ 1. Due to limitations in Apple's libraries not every process might 'fork' safe.
+    One of the general error is unable to query the macOS system configuration for network proxies.
+    If your are not using a proxy you could disable it by set environment variable 'no_proxy' to '*'.
+    See: https://github.com/python/cpython/issues/58037 and https://bugs.python.org/issue30385#msg293958
+********************************************************************************************************, please report this via <https://github.com/apache/airflow/issues>. Error was: RecursionError: maximum recursion depth exceeded
+[2024-11-13T22:37:24.207-0500] {local_task_job_runner.py:133} CRITICAL - 
+******************************************* Received SIGSEGV *******************************************
+SIGSEGV (Segmentation Violation) signal indicates Segmentation Fault error which refers to
+an attempt by a program/library to write or read outside its allocated memory.
+
+In Python environment usually this signal refers to libraries which use low level C API.
+Make sure that you use right libraries/Docker Images
+for your architecture (Intel/ARM) and/or Operational System (Linux/macOS).
+
+Suggested way to debug
+======================
+  - Set environment variable 'PYTHONFAULTHANDLER' to 'true'.
+  - Start airflow services.
+  - Restart failed airflow task.
+  - Check 'scheduler' and 'worker' services logs for additional traceback
+    which might contain information about module/library where actual error happen.
+
+Known Issues
+============
+
+Note: Only Linux-based distros supported as "Production" execution environment for Airflow.
+
+macOS
+-----
+ 1. Due to limitations in Apple's libraries not every process might 'fork' safe.
+    One of the general error is unable to query the macOS system configuration for network proxies.
+    If your are not using a proxy you could disable it by set environment variable 'no_proxy' to '*'.
+    See: https://github.com/python/cpython/issues/58037 and https://bugs.python.org/issue30385#msg293958
+********************************************************************************************************
+[2024-11-13T22:37:25.693-0500] {local_task_job_runner.py:133} CRITICAL - 
+******************************************* Received SIGSEGV *******************************************
+SIGSEGV (Segmentation Violation) signal indicates Segmentation Fault error which refers to
+an attempt by a program/library to write or read outside its allocated memory.
+
+In Python environment usually this signal refers to libraries which use low level C API.
+Make sure that you use right libraries/Docker Images
+for your architecture (Intel/ARM) and/or Operational System (Linux/macOS).
+
+Suggested way to debug
+======================
+  - Set environment variable 'PYTHONFAULTHANDLER' to 'true'.
+  - Start airflow services.
+  - Restart failed airflow task.
+  - Check 'scheduler' and 'worker' services logs for additional traceback
+    which might contain information about module/library where actual error happen.
+
+Known Issues
+============
+
+Note: Only Linux-based distros supported as "Production" execution environment for Airflow.
+
+macOS
+-----
+ 1. Due to limitations in Apple's libraries not every process might 'fork' safe.
+    One of the general error is unable to query the macOS system configuration for network proxies.
+    If your are not using a proxy you could disable it by set environment variable 'no_proxy' to '*'.
+    See: https://github.com/python/cpython/issues/58037 and https://bugs.python.org/issue30385#msg293958
+********************************************************************************************************
+[2024-11-13T22:37:47.679-0500] {local_task_job_runner.py:133} CRITICAL - 
+******************************************* Received SIGSEGV *******************************************
+SIGSEGV (Segmentation Violation) signal indicates Segmentation Fault error which refers to
+an attempt by a program/library to write or read outside its allocated memory.
+
+In Python environment usually this signal refers to libraries which use low level C API.
+Make sure that you use right libraries/Docker Images
+for your architecture (Intel/ARM) and/or Operational System (Linux/macOS).
+
+Suggested way to debug
+======================
+  - Set environment variable 'PYTHONFAULTHANDLER' to 'true'.
+  - Start airflow services.
+  - Restart failed airflow task.
+  - Check 'scheduler' and 'worker' services logs for additional traceback
+    which might contain information about module/library where actual error happen.
+
+Known Issues
+============
+
+Note: Only Linux-based distros supported as "Production" execution environment for Airflow.
+
+macOS
+-----
+ 1. Due to limitations in Apple's libraries not every process might 'fork' safe.
+    One of the general error is unable to query the macOS system configuration for network proxies.
+    If your are not using a proxy you could disable it by set environment variable 'no_proxy' to '*'.
+    See: https://github.com/python/cpython/issues/58037 and https://bugs.python.org/issue30385#msg293958
+********************************************************************************************************
+[2024-11-13T22:37:47.975-0500] {local_task_job_runner.py:133} CRITICAL - 
+******************************************* Received SIGSEGV *******************************************
+SIGSEGV (Segmentation Violation) signal indicates Segmentation Fault error which refers to
+an attempt by a program/library to write or read outside its allocated memory.
+
+In Python environment usually this signal refers to libraries which use low level C API.
+Make sure that you use right libraries/Docker Images
+for your architecture (Intel/ARM) and/or Operational System (Linux/macOS).
+
+Suggested way to debug
+======================
+  - Set environment variable 'PYTHONFAULTHANDLER' to 'true'.
+  - Start airflow services.
+  - Restart failed airflow task.
+  - Check 'scheduler' and 'worker' services logs for additional traceback
+    which might contain information about module/library where actual error happen.
+
+Known Issues
+============
+
+Note: Only Linux-based distros supported as "Production" execution environment for Airflow.
+
+macOS
+-----
+ 1. Due to limitations in Apple's libraries not every process might 'fork' safe.
+    One of the general error is unable to query the macOS system configuration for network proxies.
+    If your are not using a proxy you could disable it by set environment variable 'no_proxy' to '*'.
+    See: https://github.com/python/cpython/issues/58037 and https://bugs.python.org/issue30385#msg293958
+********************************************************************************************************
+[2024-11-13T22:37:48.267-0500] {local_task_job_runner.py:133} CRITICAL - 
+******************************************* Received SIGSEGV *******************************************
+SIGSEGV (Segmentation Violation) signal indicates Segmentation Fault error which refers to
+an attempt by a program/library to write or read outside its allocated memory.
+
+In Python environment usually this signal refers to libraries which use low level C API.
+Make sure that you use right libraries/Docker Images
+for your architecture (Intel/ARM) and/or Operational System (Linux/macOS).
+
+Suggested way to debug
+======================
+  - Set environment variable 'PYTHONFAULTHANDLER' to 'true'.
+  - Start airflow services.
+  - Restart failed airflow task.
+  - Check 'scheduler' and 'worker' services logs for additional traceback
+    which might contain information about module/library where actual error happen.
+
+Known Issues
+============
+
+Note: Only Linux-based distros supported as "Production" execution environment for Airflow.
+
+macOS
+-----
+ 1. Due to limitations in Apple's libraries not every process might 'fork' safe.
+    One of the general error is unable to query the macOS system configuration for network proxies.
+    If your are not using a proxy you could disable it by set environment variable 'no_proxy' to '*'.
+    See: https://github.com/python/cpython/issues/58037 and https://bugs.python.org/issue30385#msg293958
+********************************************************************************************************
+[2024-11-13T22:37:49.131-0500] {local_task_job_runner.py:133} CRITICAL - 
+******************************************* Received SIGSEGV *******************************************
+SIGSEGV (Segmentation Violation) signal indicates Segmentation Fault error which refers to
+an attempt by a program/library to write or read outside its allocated memory.
+
+In Python environment usually this signal refers to libraries which use low level C API.
+Make sure that you use right libraries/Docker Images
+for your architecture (Intel/ARM) and/or Operational System (Linux/macOS).
+
+Suggested way to debug
+======================
+  - Set environment variable 'PYTHONFAULTHANDLER' to 'true'.
+  - Start airflow services.
+  - Restart failed airflow task.
+  - Check 'scheduler' and 'worker' services logs for additional traceback
+    which might contain information about module/library where actual error happen.
+
+Known Issues
+============
+
+Note: Only Linux-based distros supported as "Production" execution environment for Airflow.
+
+macOS
+-----
+ 1. Due to limitations in Apple's libraries not every process might 'fork' safe.
+    One of the general error is unable to query the macOS system configuration for network proxies.
+    If your are not using a proxy you could disable it by set environment variable 'no_proxy' to '*'.
+    See: https://github.com/python/cpython/issues/58037 and https://bugs.python.org/issue30385#msg293958
+********************************************************************************************************
+[2024-11-13T22:37:50.708-0500] {local_task_job_runner.py:133} CRITICAL - 
+******************************************* Received SIGSEGV *******************************************
+SIGSEGV (Segmentation Violation) signal indicates Segmentation Fault error which refers to
+an attempt by a program/library to write or read outside its allocated memory.
+
+In Python environment usually this signal refers to libraries which use low level C API.
+Make sure that you use right libraries/Docker Images
+for your architecture (Intel/ARM) and/or Operational System (Linux/macOS).
+
+Suggested way to debug
+======================
+  - Set environment variable 'PYTHONFAULTHANDLER' to 'true'.
+  - Start airflow services.
+  - Restart failed airflow task.
+  - Check 'scheduler' and 'worker' services logs for additional traceback
+    which might contain information about module/library where actual error happen.
+
+Known Issues
+============
+
+Note: Only Linux-based distros supported as "Production" execution environment for Airflow.
+
+macOS
+-----
+ 1. Due to limitations in Apple's libraries not every process might 'fork' safe.
+    One of the general error is unable to query the macOS system configuration for network proxies.
+    If your are not using a proxy you could disable it by set environment variable 'no_proxy' to '*'.
+    See: https://github.com/python/cpython/issues/58037 and https://bugs.python.org/issue30385#msg293958
+********************************************************************************************************
+[2024-11-13T22:37:52.478-0500] {local_task_job_runner.py:133} CRITICAL - 
+******************************************* Received SIGSEGV *******************************************
+SIGSEGV (Segmentation Violation) signal indicates Segmentation Fault error which refers to
+an attempt by a program/library to write or read outside its allocated memory.
+
+In Python environment usually this signal refers to libraries which use low level C API.
+Make sure that you use right libraries/Docker Images
+for your architecture (Intel/ARM) and/or Operational System (Linux/macOS).
+
+Suggested way to debug
+======================
+  - Set environment variable 'PYTHONFAULTHANDLER' to 'true'.
+  - Start airflow services.
+  - Restart failed airflow task.
+  - Check 'scheduler' and 'worker' services logs for additional traceback
+    which might contain information about module/library where actual error happen.
+
+Known Issues
+============
+
+Note: Only Linux-based distros supported as "Production" execution environment for Airflow.
+
+macOS
+-----
+ 1. Due to limitations in Apple's libraries not every process might 'fork' safe.
+    One of the general error is unable to query the macOS system configuration for network proxies.
+    If your are not using a proxy you could disable it by set environment variable 'no_proxy' to '*'.
+    See: https://github.com/python/cpython/issues/58037 and https://bugs.python.org/issue30385#msg293958
+********************************************************************************************************
+[2024-11-13T22:37:52.811-0500] {secrets_masker.py:282} WARNING - Unable to redact value of type 
+******************************************* Received SIGSEGV *******************************************
+SIGSEGV (Segmentation Violation) signal indicates Segmentation Fault error which refers to
+an attempt by a program/library to write or read outside its allocated memory.
+
+In Python environment usually this signal refers to libraries which use low level C API.
+Make sure that you use right libraries/Docker Images
+for your architecture (Intel/ARM) and/or Operational System (Linux/macOS).
+
+Suggested way to debug
+======================
+  - Set environment variable 'PYTHONFAULTHANDLER' to 'true'.
+  - Start airflow services.
+  - Restart failed airflow task.
+  - Check 'scheduler' and 'worker' services logs for additional traceback
+    which might contain information about module/library where actual error happen.
+
+Known Issues
+============
+
+Note: Only Linux-based distros supported as "Production" execution environment for Airflow.
+
+macOS
+-----
+ 1. Due to limitations in Apple's libraries not every process might 'fork' safe.
+    One of the general error is unable to query the macOS system configuration for network proxies.
+    If your are not using a proxy you could disable it by set environment variable 'no_proxy' to '*'.
+    See: https://github.com/python/cpython/issues/58037 and https://bugs.python.org/issue30385#msg293958
+********************************************************************************************************, please report this via <https://github.com/apache/airflow/issues>. Error was: RecursionError: maximum recursion depth exceeded
+[2024-11-13T22:37:52.645-0500] {local_task_job_runner.py:133} CRITICAL - 
+******************************************* Received SIGSEGV *******************************************
+SIGSEGV (Segmentation Violation) signal indicates Segmentation Fault error which refers to
+an attempt by a program/library to write or read outside its allocated memory.
+
+In Python environment usually this signal refers to libraries which use low level C API.
+Make sure that you use right libraries/Docker Images
+for your architecture (Intel/ARM) and/or Operational System (Linux/macOS).
+
+Suggested way to debug
+======================
+  - Set environment variable 'PYTHONFAULTHANDLER' to 'true'.
+  - Start airflow services.
+  - Restart failed airflow task.
+  - Check 'scheduler' and 'worker' services logs for additional traceback
+    which might contain information about module/library where actual error happen.
+
+Known Issues
+============
+
+Note: Only Linux-based distros supported as "Production" execution environment for Airflow.
+
+macOS
+-----
+ 1. Due to limitations in Apple's libraries not every process might 'fork' safe.
+    One of the general error is unable to query the macOS system configuration for network proxies.
+    If your are not using a proxy you could disable it by set environment variable 'no_proxy' to '*'.
+    See: https://github.com/python/cpython/issues/58037 and https://bugs.python.org/issue30385#msg293958
+********************************************************************************************************
+[2024-11-13T22:37:52.823-0500] {local_task_job_runner.py:266} INFO - Task exited with return code 139
+[2024-11-13T23:04:24.026-0500] {local_task_job_runner.py:346} WARNING - State of this instance has been externally set to failed. Terminating instance.
+[2024-11-13T23:04:24.096-0500] {local_task_job_runner.py:245} INFO - ::endgroup::
+[2024-11-13T23:04:24.117-0500] {process_utils.py:132} INFO - Sending 15 to group 33301. PIDs of all processes in the group: [33301]
+[2024-11-13T23:04:24.120-0500] {process_utils.py:87} INFO - Sending the signal 15 to group 33301
+[2024-11-13T23:05:24.162-0500] {process_utils.py:150} WARNING - process psutil.Process(pid=33301, name='python3.12', status='running', started='22:25:54') did not respond to SIGTERM. Trying SIGKILL
+[2024-11-13T23:05:24.175-0500] {process_utils.py:87} INFO - Sending the signal 9 to group 33301
+[2024-11-13T23:05:24.449-0500] {process_utils.py:80} INFO - Process psutil.Process(pid=33301, name='python3.12', status='terminated', exitcode=<Negsignal.SIGKILL: -9>, started='22:25:54') (33301) terminated with exit code -9
+[2024-11-13T23:05:24.451-0500] {standard_task_runner.py:190} ERROR - ('Job 13 was killed before it finished (likely due to running out of memory)', 'For more information, see https://airflow.apache.org/docs/apache-airflow/stable/troubleshooting.html#LocalTaskJob-killed')
+[2024-11-13T23:07:44.235-0500] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2024-11-13T23:07:44.245-0500] {taskinstance.py:2603} INFO - Dependencies not met for <TaskInstance: process_upload_embed_dag.upload_metadata_task manual__2024-11-14T03:14:11.966878+00:00 [failed]>, dependency 'Task Instance State' FAILED: Task is in the 'failed' state.
+[2024-11-13T23:07:44.246-0500] {local_task_job_runner.py:166} INFO - Task is not able to be run

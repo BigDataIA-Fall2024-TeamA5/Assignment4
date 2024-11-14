@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "doc-env"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+package-mode = false
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+# Data handling and manipulation
+pandas = "^2.2.3"
+numpy = ">=1.26.4,<2.0.0"
+
+# API and HTTP request handling
+requests = "^2.32.3"
+python-dotenv = "^1.0.1"
+
+# AWS and S3 handling
+boto3 = "^1.35.57"
+
+# Vector storage and management
+pinecone-client = "^5.0.1"
+
+# NLP and AI model interaction
+openai = "^1.54.3"
+
+# Serialization and environment handling
+jsonpickle = "^3.4.2"
+virtualenv = "^20.27.1"
+
+# CLI utilities and image processing
+typer = ">=0.12.5,<0.13.0"
+pillow = ">=10.0.0,<11.0.0"
+
+# General packaging utilities
+packaging = ">=16.8,<24"
+
+# Core document processing library
+docling = "^2.4.2"
+transformers = "^4.46.2"
+torch = "^2.5.1"
+sentence-transformers = "^3.3.0"
+pdfplumber = "^0.11.4"
+apache-airflow = "^2.10.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
