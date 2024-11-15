@@ -1,7 +1,0 @@
-docling==1.2.1
-certifi>=2024.7.4
-deepsearch-glm<1,>=0.19.0
-docling-core<2.0.0,>=1.1.2
-docling-ibm-models<2.0.0,>=1.1.0
-pdfplumber
-apache-airflow-providers-amazon
