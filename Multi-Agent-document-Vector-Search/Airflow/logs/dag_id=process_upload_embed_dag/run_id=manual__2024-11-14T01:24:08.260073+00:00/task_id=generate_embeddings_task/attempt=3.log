@@ -1,3 +1,0 @@
-[2024-11-13T23:05:48.851-0500] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
-[2024-11-13T23:05:48.862-0500] {taskinstance.py:2603} INFO - Dependencies not met for <TaskInstance: process_upload_embed_dag.generate_embeddings_task manual__2024-11-14T01:24:08.260073+00:00 [failed]>, dependency 'Task Instance State' FAILED: Task is in the 'failed' state.
-[2024-11-13T23:05:48.862-0500] {local_task_job_runner.py:166} INFO - Task is not able to be run

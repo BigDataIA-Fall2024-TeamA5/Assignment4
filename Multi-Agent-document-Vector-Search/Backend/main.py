@@ -28,7 +28,7 @@ app.add_middleware(
 )
 
 # Initialize Langraph instance
-langraph = Langraph()
+langgraph = Langgraph()
 
 # Initialize agents
 web_search_agent = WebSearchAgent(langraph=langraph)
